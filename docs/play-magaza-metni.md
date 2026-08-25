@@ -8,26 +8,31 @@ BudgetFlow: Gelir Gider Takip
 
 ## Kısa açıklama (max 80 karakter)
 ```
-Gelir ve giderini çevrimdışı takip et. Reklamsız, verilerin cihazında kalır.
+Gelir ve giderini çevrimdışı takip et. Verilerin yalnızca cihazında kalır.
 ```
-(76 karakter)
+(74 karakter)
 
 Alternatifler:
 ```
-Basit gelir-gider takibi. Çevrimdışı, reklamsız, gizli. Bütçe ve grafiklerle.
+Basit gelir-gider takibi. Çevrimdışı çalışır. Bütçe limitleri ve grafiklerle.
 ```
 ```
-Kişisel bütçe ve harcama takibi. Hesap yok, reklam yok, veriler cihazında.
+Kişisel bütçe ve harcama takibi. Hesap gerekmez, veriler cihazında kalır.
 ```
+
+> 1.6.0'dan itibaren uygulama reklam içeriyor. "Reklamsız / reklam yok"
+> ifadeleri bu yüzden kaldırıldı — reklamlı sürüm yayındayken bunları
+> kullanmak yanıltıcı beyan olur.
 
 ## Tam açıklama (max 4000 karakter)
 ```
-BudgetFlow, gelir ve giderlerinizi hızlıca kaydedip takip etmenizi sağlayan sade ve modern bir kişisel finans uygulamasıdır. Tüm verileriniz yalnızca cihazınızda saklanır — hesap açmanıza, giriş yapmanıza veya internete bağlanmanıza gerek yoktur.
+BudgetFlow, gelir ve giderlerinizi hızlıca kaydedip takip etmenizi sağlayan sade ve modern bir kişisel finans uygulamasıdır. Tüm verileriniz yalnızca cihazınızda saklanır — hesap açmanıza veya giriş yapmanıza gerek yoktur.
 
 GİZLİLİK ÖNCE GELİR
-• Tamamen çevrimdışı çalışır — internet izni bile istemez
-• Hiçbir veri toplanmaz, sunucuya gönderilmez, paylaşılmaz
-• Reklam yok, takip yok, analiz aracı yok
+• Finansal verileriniz cihazınızdan çıkmaz — sunucuya gönderilmez, paylaşılmaz
+• Tüm özellikler çevrimdışı çalışır; kayıt tutmak için internet gerekmez
+• Hesap yok, giriş yok, kimlik bilgisi istenmez
+• Uygulama reklamla desteklenir; reklamlar Google AdMob üzerinden gösterilir
 • Verileriniz sadece sizin cihazınızda, sizin denetiminizde
 
 TEMEL ÖZELLİKLER

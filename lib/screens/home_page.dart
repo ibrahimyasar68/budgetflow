@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:personal_finance_tracker/database/database_service.dart';
 import 'package:personal_finance_tracker/models/transaction.dart';
 import 'package:personal_finance_tracker/screens/about.dart';
@@ -14,6 +15,7 @@ import 'package:personal_finance_tracker/screens/recurring_page.dart';
 import 'package:personal_finance_tracker/screens/tabs/chart_tab.dart';
 import 'package:personal_finance_tracker/screens/tabs/settings_tab.dart';
 import 'package:personal_finance_tracker/screens/transaction_sheet.dart';
+import 'package:personal_finance_tracker/utils/ad_service.dart';
 import 'package:personal_finance_tracker/utils/app_theme.dart';
 import 'package:personal_finance_tracker/utils/backup_service.dart';
 import 'package:personal_finance_tracker/utils/check_message.dart';
@@ -53,6 +55,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late final AnimationController _listAnim;
   late final AnimationController _fabAnim;
 
+  // Alt bardaki banner reklam. Yüklenene kadar yer kaplamaz.
+  BannerAd? _bannerAd;
+  bool _isBannerLoaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -68,6 +74,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
     _loadTransactions();
     _loadBudget();
+    // Adaptive banner ekran genişliğine göre boyutlandığı için MediaQuery
+    // gerekiyor; initState'te henüz erişilemez, ilk kareden sonra yüklenir.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadBannerAd();
+    });
+  }
+
+  Future<void> _loadBannerAd() async {
+    final width = MediaQuery.sizeOf(context).width.truncate();
+    final ad = await AdService.instance.createBannerAd(
+      width: width,
+      onLoaded: () {
+        if (mounted) setState(() => _isBannerLoaded = true);
+      },
+    );
+    if (!mounted) {
+      ad?.dispose();
+      return;
+    }
+    setState(() => _bannerAd = ad);
   }
 
   Future<void> _loadBudget() async {
@@ -82,6 +108,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _listAnim.dispose();
     _fabAnim.dispose();
     _searchController.dispose();
+    _bannerAd?.dispose();
     super.dispose();
   }
 
@@ -166,8 +193,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       await RecurringService(_db).generateDue();
       await _loadTransactions();
       if (!mounted) return;
+      // Ekranda okunması gereken bir bildirim gösterildi mi? Gösterildiyse
+      // geçiş reklamı bu turu atlar (aksi halde snackbar'ın üstünü kapatır).
+      var showedNotice = false;
       // İlk işlem eklendiğinde küçük bir kutlama.
       if (existing == null && wasEmpty && _transactions.isNotEmpty) {
+        showedNotice = true;
         HapticFeedback.lightImpact();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -179,6 +210,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         // Yalnızca sınırı bu işlem ilk kez aştıysa uyar (tekrar spam yok).
         final expenseAfter = _expenseForMonth(thisMonth);
         if (expenseBefore <= budget && expenseAfter > budget) {
+          showedNotice = true;
           HapticFeedback.heavyImpact();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -188,6 +220,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           );
         }
+      }
+      // Geçiş reklamı yalnızca yeni kayıtta; düzenlemede gösterilmez.
+      // Bütçe aşım uyarısı gibi bir bildirim varsa reklam bir sonraki kayda
+      // ertelenir — uyarı reklamın altında kaybolmasın.
+      if (existing == null) {
+        await AdService.instance.maybeShowInterstitialAfterSave(
+          _db,
+          skipThisRound: showedNotice,
+        );
       }
     }
   }
@@ -265,7 +306,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ],
       ),
       floatingActionButton: _selectedIndex == 0 ? _buildFab() : null,
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: _buildBottomBar(),
     );
   }
 
@@ -280,6 +321,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             onPressed: () =>
                 Navigator.push(context, fadeRoute(const AboutPage())),
           ),
+      ],
+    );
+  }
+
+  /// Banner reklam + mevcut alt gezinme çubuğu. Reklam yüklenmediyse yalnızca
+  /// gezinme çubuğu görünür (yer tutucu boşluk bırakılmaz).
+  Widget _buildBottomBar() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (_isBannerLoaded && _bannerAd != null)
+          Container(
+            color: Theme.of(context).colorScheme.surface,
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            alignment: Alignment.center,
+            child: AdWidget(ad: _bannerAd!),
+          ),
+        _buildBottomNav(),
       ],
     );
   }
@@ -349,26 +409,57 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       );
 
   Widget _buildTransactionTab() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-      child: Column(
-        children: [
-          if (_transactions.isNotEmpty) ...[
-            _monthSelector(),
-            const SizedBox(height: 12),
+    // Hiç işlem yokken kaydırılacak bir liste yok; sade düzen yeterli.
+    if (_transactions.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+        child: Column(
+          children: [
+            _buildSummaryCard(),
+            const SizedBox(height: 16),
+            const Expanded(
+              child: EmptyState(
+                icon: Icons.receipt_long_rounded,
+                title: 'Henüz Bir İşlem Yok',
+                subtitle: 'Aşağıdaki + butonuyla ilk işlemini ekle',
+              ),
+            ),
           ],
-          _buildSummaryCard(),
-          // Bütçe kartı: yalnızca belirli bir ay seçiliyken ve limit varken.
-          if (_selectedMonth != null && _monthlyBudget != null) ...[
-            const SizedBox(height: 12),
-            _buildBudgetCard(),
-          ],
-          const SizedBox(height: 16),
-          if (_transactions.isNotEmpty) ...[
-            _buildFilterBar(),
-            const SizedBox(height: 8),
-          ],
-          Expanded(child: _buildTransactionList()),
+        ),
+      );
+    }
+
+    // Özet/bütçe kartları ve filtre çubuğu artık listeyle birlikte kayıyor.
+    // Sabit başlıkken listeye yalnızca birkaç satır kalıyordu; bu haliyle
+    // kullanıcı kaydırdığı anda işlem listesi ekranın tamamını kullanıyor.
+    return RefreshIndicator(
+      onRefresh: _loadTransactions,
+      child: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate([
+                _monthSelector(),
+                const SizedBox(height: 12),
+                _buildSummaryCard(),
+                // Bütçe kartı: yalnızca belirli bir ay seçiliyken ve limit varken.
+                if (_selectedMonth != null && _monthlyBudget != null) ...[
+                  const SizedBox(height: 12),
+                  _buildBudgetCard(),
+                ],
+                const SizedBox(height: 16),
+                _buildFilterBar(),
+                const SizedBox(height: 8),
+              ]),
+            ),
+          ),
+          SliverPadding(
+            // Alt boşluk FAB'ın son satırı kapatmaması için.
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 90),
+            sliver: _buildTransactionSliver(),
+          ),
         ],
       ),
     );
@@ -676,21 +767,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     }
   }
 
-  Widget _buildTransactionList() {
-    if (_transactions.isEmpty) {
-      return const EmptyState(
-        icon: Icons.receipt_long_rounded,
-        title: 'Henüz Bir İşlem Yok',
-        subtitle: 'Aşağıdaki + butonuyla ilk işlemini ekle',
-      );
-    }
-
+  /// İşlem listesi — sliver olarak döner, böylece üstündeki kartlarla aynı
+  /// kaydırma alanını paylaşır.
+  Widget _buildTransactionSliver() {
     final items = _visibleTransactions;
     if (items.isEmpty) {
-      return const EmptyState(
-        icon: Icons.search_off_rounded,
-        title: 'Sonuç Yok',
-        subtitle: 'Arama, filtre veya ayı değiştirmeyi dene',
+      return const SliverFillRemaining(
+        hasScrollBody: false,
+        child: EmptyState(
+          icon: Icons.search_off_rounded,
+          title: 'Sonuç Yok',
+          subtitle: 'Arama, filtre veya ayı değiştirmeyi dene',
+        ),
       );
     }
 
@@ -706,16 +794,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       rows.add(t);
     }
 
-    return RefreshIndicator(
-      onRefresh: _loadTransactions,
-      child: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: const EdgeInsets.only(bottom: 90),
-        itemCount: rows.length,
-        itemBuilder: (context, index) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
           final start = (index * 0.05).clamp(0.0, 0.8);
           final end = (start + 0.4).clamp(0.0, 1.0);
           final row = rows[index];
+          final rowChild = row is String
+              ? _dateHeader(row)
+              : _buildTransactionCard(row as Transaction);
 
           return AnimatedBuilder(
             animation: _listAnim,
@@ -735,11 +822,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               );
             },
-            child: row is String
-                ? _dateHeader(row)
-                : _buildTransactionCard(row as Transaction),
+            child: rowChild,
           );
         },
+        childCount: rows.length,
       ),
     );
   }

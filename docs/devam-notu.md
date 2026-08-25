@@ -8,17 +8,49 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 - **Sürüm tek kaynağı:** `pubspec.yaml` → şu an **`1.5.1+12`** (kod hazır, **Play'e yüklenmedi**).
 - **AAB hazır (2026-08-20):** `build/app/outputs/bundle/release/app-release.aab` — 1.5.1 / versionCode 12, imzalı, 47,6 MB. Play'e yüklenmeyi bekliyor.
 - **Gizlilik politikası YAYINDA:** https://ibrahimyasar68.github.io/budgetflow-privacy/
-- **Sağlık:** `flutter analyze` temiz, `flutter test` **38/38** geçiyor. DB şema sürümü **10** (değişmedi). Yedek dosyası şeması **2**. targetSdk/compileSdk 36. Hassas izin yok, internet yok.
+- **Sağlık:** `flutter analyze` temiz, `flutter test` **46/46** geçiyor. DB şema sürümü **10** (değişmedi). Yedek dosyası şeması **2**. targetSdk/compileSdk 36.
+- **DİKKAT — çalışma dizininde reklam kodu var (commit edilmedi).** `pubspec.yaml` artık **`1.6.0+13`** (2026-08-25'te yükseltildi). Bundan sonraki her derleme 1.6.0/13 üretir. **Bekleyen reklamsız 1.5.1 AAB'si etkilenmedi** — sürümü dosyaya gömülü: `build/app/outputs/bundle/release/app-release.aab`, 20 Ağustos, 1.5.1/versionCode 12.
+- **Play'de üretim durumu:** **12 (1.5.1) YAYINDA** — 2026-08-25 18:38'de gönderildi, 18:55'te yayınlandı (Gönderim 11). Aşamalı değil, **doğrudan tam kullanıma sunuldu (%100)**. Dağıtım **3 ülke/bölge**.
 
 ## SIRADAKİ İŞLER
 
 1. ~~Ekran görüntülerini Play'e yükle~~ — **TAMAM (2026-08-20).** `docs/play-ekran-goruntuleri/` altındaki 8 kare (01-giris … 08-koyu-tema) Ana mağaza girişi → Telefon ekran görüntüleri alanına yüklendi.
-2. **1.5.1'i yayınla:**
-   ```
-   flutter build appbundle --release
-   ```
-   → Play Console → Üretim → Yeni sürüm oluştur → AAB'yi yükle (versionCode **12**) → aşamalı yayın %20 → %50 → %100.
-3. İstenirse fikir havuzundan bir sonraki iyileştirme turu.
+2. ~~1.5.1'i yayınla~~ — **TAMAM (2026-08-25).** versionCode 12 üretimde, %100.
+3. **1.6.0'ı (reklamlı) yayınla** — aşağıdaki yayın kapısı listesi.
+
+## 1.6.0 yayın kapısı
+
+Reklam kodu yazıldı ve test edildi ama **yayına hazır değil**. Sırayla:
+
+**AdMob hesabı (senin)**
+1. AdMob'da uygulamayı `com.ibrahimyasar.budgetflow` ile oluştur → **App ID**.
+2. İki reklam birimi aç: Banner + Geçiş → **2 Ad Unit ID**.
+3. Test cihazının reklam kimliğini not al.
+
+**Kod**
+4. ~~Gerçek App ID + iki Ad Unit ID~~ — **TAMAM (2026-08-25).** Kimlikler `docs/surum-notlari-1.6.0.md` §8'de; release manifest'ten doğrulandı.
+5. Test cihazı kimliği — `AdService.testDeviceIds` altyapısı hazır, **liste boş**. Gerçek telefonda release denenecekse doldurulmalı. **Kendi reklamına tıklamak AdMob hesabını kapattırabilir.** Emülatörde gerekmiyor.
+6. ~~Sürümü `1.6.0+13` yap~~ — **TAMAM.**
+
+**Play Console (AAB yüklemeden önce)**
+7. ~~Dağıtımı yalnızca Türkiye ile sınırla~~ — **GEREKSİZ (2026-08-25).** Hedef ülkeler: **Azerbaycan, Türkiye, Türkmenistan** — üçü de AEA/BK dışında, Google'ın CMP/UMP şartı geçerli değil. Sürüm "hedeflenen tüm ülkeler" ile yayınlanabilir. **Kalıcı kural: hedef listeye bir AEA/BK ülkesi eklenecekse önce UMP rıza akışı koda eklenmeli.**
+8. Uygulama içeriği → **Reklam Kimliği** beyanı: "Uygulamanız reklam kimliği kullanıyor mu?" → **Evet**, amaç olarak **Reklam veya pazarlama** (istersen + sahtekarlık önleme). Alttaki "AD_ID iznini eklememenin sonuçlarını anlıyorum / sürüm hatalarını kaldır" kutusu **işaretlenmez** — izin zaten SDK tarafından manifest'e ekleniyor (release manifest'inden doğrulandı). ~~TAMAM (2026-08-25)~~
+9. Uygulama içeriği → **Reklamlar** → "Evet, uygulamamda reklam var". (Reklam Kimliği beyanından ayrı bir kalem.)
+10. Veri Güvenliği formunu güncelle (`docs/play-veri-guvenligi.md` yanıt kağıdı hazır). **Toplama ve paylaşma amaçları birebir aynı olmalı** — önizlemede biri "Reklam veya pazarlama", diğeri "Sahtekarlığı önleme + Reklam veya pazarlama" çıkarsa tutarsızdır.
+11. İçerik derecelendirme anketini yeniden doldur (reklam sorusunun cevabı değişti).
+12. Mağaza girişini `docs/play-magaza-metni.md`'deki yeni metinle güncelle → **Değişiklikleri gönder** (ayrı inceleme kalemi; basmazsan mağazada hâlâ "Reklamsız" yazar).
+13. ~~Gizlilik politikasını `budgetflow-privacy` reposunda güncelle~~ — **TAMAM (2026-08-25).** Canlı sayfa `docs/privacy/index.html` ile birebir aynı, doğrulandı. (Eski hali: gizlilik politikasını `budgetflow-privacy` reposunda güncelle — `docs/privacy/index.html` ile **birebir aynı** olmalı. **Bunu Veri Güvenliği formunu göndermeden ÖNCE yap:** formun önizlemesi bu URL'yi gösteriyor, sayfa hâlâ "internete bağlanmaz, reklam ağı kullanılmaz" derken formda "reklam kimliği toplanıyor/paylaşılıyor" demek doğrudan çelişki olur. Metin sürümlendiği için ("1.6.0'dan itibaren") erken yayınlamak sorun değil.)
+
+    **Yükleme tuzakları** (üç denemede öğrenildi): dosyayı tarayıcıda açıp kopyalama — etiketler kayboluyor; **Add file → Upload files** ile Finder'dan sürükle. Yükleme ekranının altındaki **"Commit changes"** düğmesine basmayı unutma. `index.html` kökte yoksa Pages README.md'yi render eder. Doğrularken URL'ye `?v=2` ekle, önbellek yanıltmasın.
+
+**Doğrulama ve yayın**
+13. ~~Cihazda uçtan uca dene~~ — **TAMAM (2026-08-25).** Emülatörde (Android 14) senaryo çalıştırıldı: limit ₺3.500, üç ₺50 gider (sayaç 1→3), sonra ₺500 gider → limit aşıldı, **uyarı snackbar'ı göründü ve reklam ÇIKMADI**, sayaç 4'te bekledi; beşinci kayıtta geçiş reklamı açıldı (`com.google.android.gms.ads.AdActivity`) ve sayaç 0'a döndü. Banner tam genişlikte, kaydırma refaktörü sorunsuz.
+14. ~~`flutter build appbundle --release`~~ — **TAMAM.** `build/app/outputs/bundle/release/app-release.aab`, 52,9 MB, 1.6.0 / versionCode 13, AAB manifest'inde gerçek AdMob App ID doğrulandı.
+15. **KALAN:** AAB'yi üretime yükle (ülke kısıtı gerekmiyor) → %20 → %50 → %100.
+
+> **Yükleme sırasında çıkan "AD_ID izni yok" hatası yanıltıcıdır.** 1.6.0'ın manifestinde izin var (AAB baytlarından doğrulandı); hata üretimde hâlâ etkin olan reklamsız versionCode 12 yüzünden. Çözüm: **"İzin olmadan yayınla"**. "Beyanı güncelle" seçilmemeli — 1.6.0 gerçekten reklam kimliği kullanıyor. 1.6.0 %100'e ulaşınca hata kaybolur.
+
+4. İstenirse fikir havuzundan bir sonraki iyileştirme turu.
 
 ## 1.5.1'de ne var (yayınlanmayı bekliyor)
 
@@ -55,7 +87,7 @@ Doğrulama: cihazda uçtan uca denendi — yedek al (schema 2, 124 işlem + 3 ku
 ## Play Console — hazır metinler (docs/ altında)
 
 - `docs/play-magaza-metni.md` — uygulama adı, kısa (≤80) + tam açıklama.
-- `docs/play-veri-guvenligi.md` — Veri Güvenliği formu yanıtları (veri toplanmıyor/paylaşılmıyor; reklam yok; giriş yok; finansal işlem/banka bağlantısı yok).
+- `docs/play-veri-guvenligi.md` — Veri Güvenliği formu yanıtları. **1.6.0 için güncellendi:** reklam kimliği toplanıyor/paylaşılıyor, "Reklam içerir" evet, dağıtım Türkiye ile sınırlı. 1.5.1 ve öncesinin "hiç veri toplanmıyor" yanıtları dosyanın altında arşivde.
 - `docs/play-uretim-surum-notu.md` — üretim sürüm notu (`<tr-TR>`).
 - `docs/surum-notlari-1.5.0.md`, `docs/surum-notlari-1.5.1.md` — teknik notlar.
 - `docs/privacy/index.html` — gizlilik sayfasının proje içindeki kopyası. Değiştirirsen `budgetflow-privacy` reposundakini de güncelle.

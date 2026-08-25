@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:personal_finance_tracker/database/database_service.dart';
 import 'package:personal_finance_tracker/screens/splash_screen.dart';
+import 'package:personal_finance_tracker/utils/ad_service.dart';
 import 'package:personal_finance_tracker/utils/app_theme.dart';
 import 'package:personal_finance_tracker/utils/db_init.dart';
 import 'package:personal_finance_tracker/utils/recurring_service.dart';
@@ -9,6 +12,8 @@ import 'package:personal_finance_tracker/utils/recurring_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDatabase();
+  // Reklam SDK'sı açılışı bloklamasın; arka planda başlasın.
+  unawaited(AdService.instance.initialize());
   final db = DatabaseService();
   // Vadesi gelmiş tekrarlayan işlemleri açılışta üret.
   await RecurringService(db).generateDue();

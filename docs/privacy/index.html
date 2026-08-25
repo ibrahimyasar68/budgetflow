@@ -25,22 +25,35 @@
 </head>
 <body>
   <h1>BudgetFlow — Gizlilik Politikası</h1>
-  <p class="meta">Son güncelleme: 4 Temmuz 2026 · Paket adı: <code>com.ibrahimyasar.budgetflow</code></p>
+  <p class="meta">Son güncelleme: 25 Ağustos 2026 · Paket adı: <code>com.ibrahimyasar.budgetflow</code></p>
 
   <h2>Özet</h2>
-  <p>BudgetFlow tamamen <strong>çevrimdışı</strong> çalışan kişisel bir finans (gelir/gider) takip uygulamasıdır. Girdiğiniz tüm veriler <strong>yalnızca kendi cihazınızda</strong> saklanır. Uygulama hiçbir kişisel veriyi toplamaz, sunucuya göndermez, üçüncü taraflarla paylaşmaz ve internet bağlantısı kullanmaz.</p>
+  <p>BudgetFlow kişisel bir finans (gelir/gider) takip uygulamasıdır. Girdiğiniz <strong>tüm finansal veriler yalnızca kendi cihazınızda</strong> saklanır; sunucuya gönderilmez, üçüncü taraflarla paylaşılmaz. Uygulamanın tüm özellikleri çevrimdışı çalışır.</p>
+  <p><strong>Sürüm 1.6.0'dan itibaren</strong> uygulama reklam içerir. Reklamlar Google AdMob üzerinden sunulur ve bunun için reklam kimliğiniz işlenir; ayrıntı aşağıdaki &ldquo;Reklamlar&rdquo; bölümünde. <strong>Finansal verileriniz reklam ağıyla paylaşılmaz.</strong></p>
 
   <h2>Topladığımız veriler</h2>
-  <p><strong>Hiçbiri.</strong> Uygulama; hesap oluşturmanızı istemez, ad/e-posta/telefon gibi kimlik bilgileri toplamaz, konum bilgisi almaz ve kullanım/analiz verisi toplamaz.</p>
+  <p>Uygulamanın kendisi <strong>hiçbir kişisel veri toplamaz</strong>: hesap oluşturmanızı istemez, ad/e-posta/telefon gibi kimlik bilgileri toplamaz, kesin konum bilgisi almaz ve kullanım/analiz aracı içermez.</p>
+  <p>İçindeki reklam bileşeni (Google AdMob) ise reklam gösterebilmek için <strong>reklam kimliğinizi (Advertising ID)</strong> ve reklam sunumu için gereken cihaz bilgilerini işler.</p>
 
   <h2>Verilerinizin saklanması</h2>
   <p>Eklediğiniz işlemler (tutar, tür, tarih, not) ve ayarlarınız (tema, bütçe limitleri, tekrarlayan işlem kuralları) cihazınızdaki yerel bir veritabanında (SQLite) tutulur. Bu verilere yalnızca sizin cihazınızdan erişilebilir; geliştirici dahil hiç kimse erişemez.</p>
 
   <h2>İzinler</h2>
-  <p>Uygulamanın yayımlanan sürümü herhangi bir hassas Android izni (internet, konum, kişiler, kamera, depolama vb.) talep etmez. Yedekleme sırasında dosya oluşturma/seçme işlemleri Android'in standart sistem dosya seçici ekranı üzerinden yapılır.</p>
+  <p>Uygulama, reklamların yüklenebilmesi için <strong>internet izni</strong> (<code>INTERNET</code>) ve reklam kimliği izni (<code>AD_ID</code>) kullanır. Bunun dışında hassas bir Android izni (konum, kişiler, kamera, mikrofon, depolama vb.) talep etmez. Yedekleme sırasında dosya oluşturma/seçme işlemleri Android'in standart sistem dosya seçici ekranı üzerinden yapılır.</p>
+
+  <h2>Reklamlar</h2>
+  <p>Sürüm 1.6.0'dan itibaren uygulama <strong>Google AdMob</strong> ile reklam gösterir.</p>
+  <ul>
+    <li><strong>İşlenen veri:</strong> Reklam kimliği (Advertising ID) ve reklam sunumu için gereken cihaz bilgileri. AdMob, IP adresinizden ülke/bölge düzeyinde yaklaşık konum da çıkarabilir.</li>
+    <li><strong>Amaç:</strong> Yalnızca reklam sunumu ve ölçümü.</li>
+    <li><strong>Paylaşım:</strong> Bu veriler reklam sunumu için Google ile paylaşılır. Google'ın bu verileri nasıl kullandığı: <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a></li>
+    <li><strong>Paylaşılmayan:</strong> İşlemleriniz, tutarlar, notlar, bütçe limitleriniz ve tekrarlayan işlem kurallarınız reklam ağına <strong>hiçbir şekilde gönderilmez</strong>. Bu veriler cihazınızdaki veritabanından hiç çıkmaz.</li>
+    <li><strong>Denetiminiz:</strong> Reklam kimliğinizi Android &rarr; Ayarlar &rarr; Gizlilik &rarr; Reklamlar bölümünden sıfırlayabilir veya silebilirsiniz.</li>
+    <li><strong>Dağıtım:</strong> Uygulama yalnızca Türkiye'de dağıtılmaktadır.</li>
+  </ul>
 
   <h2>İnternet ve üçüncü taraflar</h2>
-  <p>Uygulama internete bağlanmaz. Reklam ağı veya analiz aracı (ör. Firebase, Google Analytics) gibi üçüncü taraf SDK'lar <strong>kullanılmaz</strong>.</p>
+  <p>Uygulamanın internet bağlantısı yalnızca reklam yüklemek için kullanılır. Kayıt tutma, grafikler, bütçeler, yedekleme ve diğer tüm özellikler çevrimdışı çalışır. Google AdMob dışında üçüncü taraf SDK (analiz, izleme, çökme raporlama vb.) <strong>kullanılmaz</strong>.</p>
 
   <h2>Verileriniz üzerindeki denetiminiz</h2>
   <ul>
@@ -60,12 +73,14 @@
   <hr>
 
   <h1>BudgetFlow — Privacy Policy (English)</h1>
-  <p class="meta">Last updated: July 4, 2026</p>
-  <p>BudgetFlow is a fully <strong>offline</strong> personal finance tracker. All data you enter is stored <strong>only on your device</strong>. The app does not collect, transmit, or share any personal data, and it does not use an internet connection.</p>
-  <p><strong>Data collected:</strong> None. No account, no identity data, no location, no analytics.</p>
+  <p class="meta">Last updated: August 25, 2026</p>
+  <p>BudgetFlow is a personal finance tracker. All <strong>financial data you enter is stored only on your device</strong>; it is never transmitted to a server or shared with third parties. Every feature works offline.</p>
+  <p><strong>Starting with version 1.6.0</strong>, the app displays ads served through Google AdMob, which processes your advertising ID. <strong>Your financial data is never shared with the ad network.</strong></p>
+  <p><strong>Data collected:</strong> The app itself collects no personal data — no account, no identity data, no precise location, no analytics. The bundled ad component (Google AdMob) processes your advertising ID and device information needed to serve ads.</p>
   <p><strong>Storage:</strong> Your transactions and settings are stored in a local SQLite database on your device only.</p>
-  <p><strong>Permissions:</strong> The published app requests no sensitive Android permissions.</p>
-  <p><strong>Internet &amp; third parties:</strong> The app does not connect to the internet and uses no advertising or analytics SDKs.</p>
+  <p><strong>Permissions:</strong> The app uses the <code>INTERNET</code> and <code>AD_ID</code> permissions so ads can load. It requests no other sensitive permissions.</p>
+  <p><strong>Ads:</strong> From version 1.6.0 the app shows ads via Google AdMob, which processes your advertising ID and device information required to serve and measure ads, and may derive approximate (country/region level) location from your IP address. This data is shared with Google for ad serving — see <a href="https://policies.google.com/technologies/partner-sites">policies.google.com/technologies/partner-sites</a>. Your transactions, amounts, notes, budgets, and recurring rules are <strong>never</strong> sent to the ad network. You can reset or delete your advertising ID under Android &rarr; Settings &rarr; Privacy &rarr; Ads. The app is distributed in Türkiye only.</p>
+  <p><strong>Internet &amp; third parties:</strong> The app's internet access is used solely to load ads; all other features work offline. No third-party SDK other than Google AdMob is used.</p>
   <p><strong>Your control:</strong> Export/back up your data (JSON or CSV) anytime; uninstalling the app permanently erases all data.</p>
   <p><strong>Contact:</strong> <a href="mailto:ibrahimyasar68@hotmail.com">ibrahimyasar68@hotmail.com</a></p>
 </body>

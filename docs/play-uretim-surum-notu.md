@@ -1,5 +1,9 @@
 # Üretim Sürüm Notu — BudgetFlow 1.5.0 (versionCode 11)
 
+> **TARİHSEL KAYIT — yeniden kullanma.** Bu not 1.5.0 yayınlanırken kullanıldı ve
+> "reklamsız" ifadesi geçiyor; 1.6.0'dan itibaren doğru değil. Güncel metinler
+> aşağıdaki 1.5.1 ve 1.6.0 bölümlerinde.
+
 Üretim (production) sürümü, ilk kez geniş kitleye açıldığından, "neler değişti"
 yerine uygulamayı tanıtan bir not daha uygundur.
 
@@ -56,3 +60,35 @@ Eski yedeklerin uyumlu: geri yüklediğinde mevcut kuralların korunur.
 ## Aşamalı yayın
 %20 → sorun görülmezse birkaç gün içinde %50 → %100.
 Sürüm: versionName 1.5.1 / versionCode 12.
+
+---
+
+# Üretim Sürüm Notu — BudgetFlow 1.6.0 (versionCode 13)
+
+Reklamların geldiği sürüm. Kullanıcıya bunu açıkça söylemek doğru olur — güncelleme
+sonrası sürpriz reklam, olumsuz yorumun en hızlı yolu.
+
+## Play Console → Üretim sürüm notu (yapıştır)
+
+```
+<tr-TR>
+Bu sürümde:
+
+• BudgetFlow artık reklam içeriyor. Uygulamanın geliştirilmeye devam edebilmesi için alt tarafta bir banner ve arada bir tam ekran reklam gösteriliyor.
+• Finansal verilerin eskisi gibi yalnızca cihazında kalıyor. İşlemlerin, notların ve bütçelerin hiçbir şekilde paylaşılmıyor.
+• Bütçe limitini aştığın uyarı gösterilirken reklam çıkmıyor; uyarıyı kaçırmıyorsun.
+</tr-TR>
+```
+
+## Aşamalı yayın
+%20 ile başla ve en az birkaç gün bekle. İzlenecek iki şey:
+- **Play vitals** — çökme/ANR artışı (reklam SDK'sı en sık burada sorun çıkarır).
+- **AdMob doldurma oranı** — sıfıra yakınsa kimlikler ya da hesap onayı sorunlu.
+
+Sorun yoksa %50 → %100.
+
+## Yayın öncesi zorunlu
+Bu sürüm notunu yapıştırmadan önce `docs/devam-notu.md` içindeki
+"1.6.0 yayın kapısı" listesi kapatılmış olmalı — özellikle gerçek AdMob
+kimlikleri, Veri Güvenliği formu, "Reklam içerir" beyanı ve dağıtımın
+Türkiye ile sınırlanması.
