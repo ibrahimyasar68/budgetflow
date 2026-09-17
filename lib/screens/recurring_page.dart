@@ -60,7 +60,8 @@ class _RecurringPageState extends State<RecurringPage> {
           : _rules.isEmpty
               ? _empty()
               : ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                  padding: EdgeInsets.fromLTRB(
+                      16, 12, 16, 24 + MediaQuery.paddingOf(context).bottom),
                   children: [
                     Text(
                       'Bu kurallar her ay otomatik işlem ekler. '

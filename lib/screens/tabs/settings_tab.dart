@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:personal_finance_tracker/main.dart';
@@ -7,7 +6,7 @@ import 'package:personal_finance_tracker/screens/guide_page.dart';
 import 'package:personal_finance_tracker/utils/fade_route.dart';
 import 'package:personal_finance_tracker/utils/formatters.dart';
 
-/// Ayarlar sekmesi. Veriye dokunan işlemler (bütçe, tekrar, yedek, CSV, çıkış)
+/// Ayarlar sekmesi. Veriye dokunan işlemler (bütçe, tekrar, yedek, CSV)
 /// üst ekranın geri çağrılarıyla yürütülür; salt gezinme (Hakkında, Kılavuz)
 /// burada yapılır.
 class SettingsTab extends StatelessWidget {
@@ -18,7 +17,6 @@ class SettingsTab extends StatelessWidget {
   final VoidCallback onSaveLocal;
   final VoidCallback onRestore;
   final VoidCallback onExportCsv;
-  final VoidCallback onExit;
 
   const SettingsTab({
     super.key,
@@ -29,7 +27,6 @@ class SettingsTab extends StatelessWidget {
     required this.onSaveLocal,
     required this.onRestore,
     required this.onExportCsv,
-    required this.onExit,
   });
 
   @override
@@ -164,17 +161,6 @@ class SettingsTab extends StatelessWidget {
             onTap: () => Navigator.push(context, fadeRoute(const GuidePage())),
           ),
         ),
-        if (!kIsWeb) ...[
-          const SizedBox(height: 12),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.power_settings_new,
-                  color: Colors.redAccent),
-              title: const Text('Uygulamadan Çık'),
-              onTap: onExit,
-            ),
-          ),
-        ],
       ],
     );
   }

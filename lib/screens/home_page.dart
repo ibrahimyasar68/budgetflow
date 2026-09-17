@@ -254,15 +254,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Future<void> _confirmExit() async {
-    final ok = await checkMessage(
-        context, 'Çıkış', 'Uygulamadan çıkmak istiyor musunuz?');
-    if (!ok) return;
-    if (!kIsWeb) {
-      SystemNavigator.pop();
-    }
-  }
-
   // ── Hesaplamalar ──────────────────────────────────────────────────────────
 
   // Tüm tutarlar kuruş (int) cinsinden — tam sayı aritmetiği, yuvarlama hatası yok.
@@ -301,7 +292,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             onSaveLocal: _saveBackupLocal,
             onRestore: _restoreBackup,
             onExportCsv: _exportCsv,
-            onExit: _confirmExit,
           ),
         ],
       ),

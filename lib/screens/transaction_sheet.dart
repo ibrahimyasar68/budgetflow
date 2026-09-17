@@ -56,7 +56,8 @@ class _TransactionSheetState extends State<TransactionSheet> {
   void initState() {
     super.initState();
     final e = widget.existing;
-    _type = e?.type ?? TransactionType.gelir;
+    // Yeni işlemde gider varsayılan: kayıtların çoğu harcama.
+    _type = e?.type ?? TransactionType.gider;
     _date = e?.date ?? DateTime.now();
     _recurStart = DateTime(_date.year, _date.month);
     _recurEnd = DateTime(_date.year, 12); // varsayılan: yıl sonu (ör. Aralık)
@@ -112,7 +113,10 @@ class _TransactionSheetState extends State<TransactionSheet> {
               const BorderRadius.vertical(top: Radius.circular(28)),
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          // Android 15+ uygulamayı gezinme çubuğunun altına çizer; Kaydet
+          // düğmesi çubuğun arkasında kalmasın. Klavye açıkken bu değer 0.
+          padding: EdgeInsets.fromLTRB(
+              20, 12, 20, 24 + MediaQuery.paddingOf(context).bottom),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -539,10 +543,10 @@ class _TypeToggle extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _seg('Gelir', Icons.south_west_rounded, TransactionType.gelir,
-              AppTheme.incomeColor),
           _seg('Gider', Icons.north_east_rounded, TransactionType.gider,
               AppTheme.expenseColor),
+          _seg('Gelir', Icons.south_west_rounded, TransactionType.gelir,
+              AppTheme.incomeColor),
         ],
       ),
     );

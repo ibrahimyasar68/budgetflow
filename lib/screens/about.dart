@@ -31,7 +31,8 @@ class _AboutPageState extends State<AboutPage> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(title: const Text('Hakkında')),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+        padding: EdgeInsets.fromLTRB(
+            16, 16, 16, 24 + MediaQuery.paddingOf(context).bottom),
         children: [
           // Uygulama kimliği
           Column(

@@ -92,3 +92,28 @@ Bu sürüm notunu yapıştırmadan önce `docs/devam-notu.md` içindeki
 "1.6.0 yayın kapısı" listesi kapatılmış olmalı — özellikle gerçek AdMob
 kimlikleri, Veri Güvenliği formu, "Reklam içerir" beyanı ve dağıtımın
 Türkiye ile sınırlanması.
+
+---
+
+# Üretim Sürüm Notu — BudgetFlow 1.6.1 (versionCode 14)
+
+Kullanıcının fark edeceği değişiklikler: alt kısmın gezinme çubuğunun altında
+kalmaması, Gider'in varsayılan olması ve çıkış düğmesinin kalkması.
+
+## Play Console → Üretim sürüm notu (yapıştır)
+
+```
+<tr-TR>
+Bu sürümde:
+
+• Bazı telefonlarda alttaki gezinme çubuğu "Kaydet" düğmesini ve sayfaların son satırlarını örtüyordu; düzeltildi.
+• Yeni işlem eklerken artık "Gider" varsayılan olarak seçili ve solda.
+• Ayarlar'daki "Uygulamadan Çık" kaldırıldı; uygulamayı telefonun geri veya ana ekran tuşuyla kapatabilirsin.
+</tr-TR>
+```
+
+## Aşamalı yayın
+Küçük bir düzeltme sürümü; %20 ile başla, vitals temizse %50 → %100.
+1.6.0 hâlâ aşamalı sunumdaysa yeni üretim sürümü onun yerini alır — 1.6.0'ın
+kullanıma sunumunu ayrıca tamamlamaya gerek yok.
+Sürüm: versionName 1.6.1 / versionCode 14.

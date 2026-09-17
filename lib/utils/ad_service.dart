@@ -56,7 +56,10 @@ class AdService {
   ///
   /// Kimliği bulmak için: uygulamayı cihazda çalıştır ve logcat'te
   /// "Use RequestConfiguration.Builder().setTestDeviceIds(...)" satırını ara.
-  static const List<String> testDeviceIds = <String>[];
+  static const List<String> testDeviceIds = <String>[
+    // Samsung SM-A720F (Galaxy A7 2017) — gerçek cihaz testi.
+    '1ECC546BBFAFD2B602198C87280DD133',
+  ];
 
   Future<void> initialize() async {
     if (testDeviceIds.isNotEmpty) {
