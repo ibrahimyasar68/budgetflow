@@ -4,7 +4,7 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 
 ## Güncel durum (2026-09-17)
 
-- **Play üretim:** **14 (1.6.1) 2026-09-17'de incelemeye gönderildi** (aşamalı sunum; önerilen başlangıç %20). Yayına girince 13 (1.6.0) ve 12 (1.5.1) sürümlerinin yerini alır. Onay ve sunum yüzdesini Play Console'dan takip et.
+- **Play üretim:** **14 (1.6.1) yayında, %100** (2026-09-17'de gönderildi, aşamalı sunum yapılmadan doğrudan %100). 13 (1.6.0) ve 12 (1.5.1) sürümlerinin yerini aldı; tüm kullanıcılar reklamlı sürüme geçiyor.
 - Gönderimde çıkan iki bildirim beklenen türdendi: AD_ID hatası → **"İzin olmadan yayınla"**, kod gösterme dosyası uyarısı → yok sayıldı (ikisi de aşağıda *Play Console* bölümünde).
 - **Sürüm tek kaynağı:** `pubspec.yaml` → **`1.6.1+14`**. 14 yüklendi → sıradaki versionCode **15**.
 - **AAB:** ana klasörde `build/app/outputs/bundle/release/app-release.aab` — **1.6.1 / 14**, 52,9 MB, yüklendi.
@@ -16,7 +16,8 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 
 ## Sıradaki işler
 
-1. **1.6.1 onayını bekle**, sonra izle: Play vitals (çökme/ANR) ve AdMob doldurma oranı. Bir gün %20'de bekle, temizse **%50 → %100** (Üretim → Sürümler → Sürümü yönet → Kullanıma sunmayı güncelle). %100 olunca AD_ID hatası da kalkar. Kapalı/dahili test kanallarında eski reklamsız bir sürüm etkinse o kanalları duraklat ya da 1.6.1 ile güncelle; yoksa hata orada da tetiklenmeye devam eder.
+1. **1.6.1'i izle** (%100'de olduğu için geri dönüş ancak yeni sürümle olur): ilk günlerde Play vitals (çökme/ANR) ve AdMob doldurma oranı / gelir. Sorun çıkarsa hızlı düzeltme için sıradaki versionCode **15**.
+   Bir sonraki gönderimde AD_ID hatası **çıkmamalı** — reklamsız sürüm artık üretimde etkin değil. Çıkarsa sebep kapalı/dahili test kanallarında hâlâ etkin olan eski reklamsız bir sürümdür: o kanalı duraklat ya da güncelle.
 2. **`app-ads.txt` kur.** Reklam birimi kimlikleri artık public repoda görünür; bu dosya envanteri sahte satıcılara karşı korur. Gerektirdiği: `ibrahimyasar68.github.io` adında **yeni bir repo** ve kökünde tek satırlık `app-ads.txt`. İçeriği AdMob → Uygulamalar → app-ads.txt altında hazır.
 3. ~~Test cihazı kimliği~~ — **tamam.** SM-A720F'nin kimliği `AdService.testDeviceIds`'te. Başka bir cihaz eklenecekse aşağıdaki AdMob bölümündeki **app set ID** tuzağını oku. **Kendi reklamına tıklamak AdMob hesabını kapattırabilir.**
 4. ~~1.6.1'i yükle ve push et~~ — **tamam (2026-09-17).** İsteğe bağlı kalan: mağaza görsellerindeki işlem sayfası karesi Gelir'i seçili ve solda gösteriyor, yenilenebilir.
