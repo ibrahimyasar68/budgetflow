@@ -4,11 +4,11 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 
 ## Güncel durum (2026-09-17)
 
-- **Play üretim:** son bilinen durum (2026-08-25): 12 (1.5.1) %100, 13 (1.6.0) incelemede / %20. Güncel durumu Play Console'dan kontrol et.
-- **Yüklenmeye hazır:** **14 (1.6.1)** — imzalı AAB derlendi, henüz Play'e yüklenmedi.
-- **Sürüm tek kaynağı:** `pubspec.yaml` → **`1.6.1+14`**. 14 yüklendikten sonra sıradaki versionCode **15**.
-- **AAB:** ana klasörde `build/app/outputs/bundle/release/app-release.aab` — **1.6.1 / 14**, yüklenmedi.
-- **Kaynak kodu:** https://github.com/ibrahimyasar68/budgetflow (**public**), GitHub'daki son commit `5b33ff6`; 1.6.1 commit'i **yalnızca yerelde** (`main`), push edilmedi.
+- **Play üretim:** **14 (1.6.1) 2026-09-17'de incelemeye gönderildi** (aşamalı sunum; önerilen başlangıç %20). Yayına girince 13 (1.6.0) ve 12 (1.5.1) sürümlerinin yerini alır. Onay ve sunum yüzdesini Play Console'dan takip et.
+- Gönderimde çıkan iki bildirim beklenen türdendi: AD_ID hatası → **"İzin olmadan yayınla"**, kod gösterme dosyası uyarısı → yok sayıldı (ikisi de aşağıda *Play Console* bölümünde).
+- **Sürüm tek kaynağı:** `pubspec.yaml` → **`1.6.1+14`**. 14 yüklendi → sıradaki versionCode **15**.
+- **AAB:** ana klasörde `build/app/outputs/bundle/release/app-release.aab` — **1.6.1 / 14**, 52,9 MB, yüklendi.
+- **Kaynak kodu:** https://github.com/ibrahimyasar68/budgetflow (**public**), 1.6.1 commit'i `c71fcdf` push edildi (2026-09-17).
 - **Gizlilik politikası:** https://ibrahimyasar68.github.io/budgetflow-privacy/ — AdMob bölümü eklenmiş sürüm yayında, `docs/privacy/index.html` ile birebir aynı.
 - **Hedeflenen ülkeler:** Azerbaycan, Türkiye, Türkmenistan.
 - **Gerçek cihaz testi (2026-08-26):** Samsung SM-A720F (Android 8.0, arm64) üzerinde 1.6.0 **release** derlemesi denendi. Banner ve dört kayıtta bir geçiş reklamı ikisi de **"Test Reklamı"** etiketiyle geldi, logcat *"This request is sent from a test device"* dedi; çökme/ANR yok. Cihaz kimliği `AdService.testDeviceIds`'e yazıldı.
@@ -16,11 +16,10 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 
 ## Sıradaki işler
 
-1. **1.6.0 onayını bekle**, sonra izle: Play vitals (çökme/ANR — reklam SDK'sı yeni değişken) ve AdMob doldurma oranı. Bir gün %20'de bekle, temizse **%50 → %100** (Üretim → Sürümler → Sürümü yönet → Kullanıma sunmayı güncelle).
+1. **1.6.1 onayını bekle**, sonra izle: Play vitals (çökme/ANR) ve AdMob doldurma oranı. Bir gün %20'de bekle, temizse **%50 → %100** (Üretim → Sürümler → Sürümü yönet → Kullanıma sunmayı güncelle). %100 olunca AD_ID hatası da kalkar. Kapalı/dahili test kanallarında eski reklamsız bir sürüm etkinse o kanalları duraklat ya da 1.6.1 ile güncelle; yoksa hata orada da tetiklenmeye devam eder.
 2. **`app-ads.txt` kur.** Reklam birimi kimlikleri artık public repoda görünür; bu dosya envanteri sahte satıcılara karşı korur. Gerektirdiği: `ibrahimyasar68.github.io` adında **yeni bir repo** ve kökünde tek satırlık `app-ads.txt`. İçeriği AdMob → Uygulamalar → app-ads.txt altında hazır.
 3. ~~Test cihazı kimliği~~ — **tamam.** SM-A720F'nin kimliği `AdService.testDeviceIds`'te. Başka bir cihaz eklenecekse aşağıdaki AdMob bölümündeki **app set ID** tuzağını oku. **Kendi reklamına tıklamak AdMob hesabını kapattırabilir.**
-4. **1.6.1'i yükle** (Üretim → Yeni sürüm oluştur → AAB). Sürüm notu `play-uretim-surum-notu.md` → 1.6.1 bölümünde. İçerik: Android 15+ gezinme çubuğu düzeltmesi, Gider varsayılan ve solda, "Uygulamadan Çık" kaldırıldı. Ayrıntı `surum-notlari-1.6.1.md`. Sonra `git push` (1.6.1 commit'i henüz yerelde).
-   İsteğe bağlı: mağaza görsellerindeki işlem sayfası karesi Gelir'i seçili gösteriyor, yenilenebilir.
+4. ~~1.6.1'i yükle ve push et~~ — **tamam (2026-09-17).** İsteğe bağlı kalan: mağaza görsellerindeki işlem sayfası karesi Gelir'i seçili ve solda gösteriyor, yenilenebilir.
 5. İstenirse fikir havuzundan bir sonraki tur.
 
 ## Kritik kurallar / tuzaklar
@@ -40,12 +39,12 @@ Proje: `~/Desktop/calismalar/yayim/budgetflow` (Flutter, Android; kişisel gelir
 
 **Play Console**
 - **versionCode her yüklemede artmalı.** Zaten yüklü bir kodu tekrar yüklersen *"… sürüm kodu daha önce kullanıldı"* hatası gelir; o durumda "Kitaplıktan ekle" kullanılır, yeniden yükleme değil.
-- **"AD_ID izni yok" hatası yanıltıcıdır.** 1.6.0'ın manifestinde izin var (AAB baytlarından doğrulandı); hata üretimde hâlâ etkin olan reklamsız versionCode 12 yüzünden — Play, uygulama düzeyindeki beyanı **tüm etkin yapılarla** karşılaştırıyor. Çözüm: **"İzin olmadan yayınla"**. "Beyanı güncelle" seçilmemeli. 1.6.0 %100'e ulaşınca hata kaybolur.
+- **"AD_ID izni yok" hatası yanıltıcıdır.** 1.6.0 ve 1.6.1'in manifestinde izin var (AAB'den doğrulandı); hata üretimde hâlâ etkin olan reklamsız versionCode 12 yüzünden — Play, uygulama düzeyindeki beyanı **tüm etkin yapılarla** karşılaştırıyor. Çözüm: **"İzin olmadan yayınla"**. "Beyanı güncelle" seçilmemeli. Reklamlı bir sürüm %100'e ulaşınca hata kaybolur. 1.6.0 ve 1.6.1 gönderimlerinde aynı hata çıktı, ikisinde de bu yolla geçildi.
 - **Mağaza girişi ayrı bir inceleme kalemi** — metni değiştirdikten sonra "Değişiklikleri gönder"e basmazsan yayına girmez, sürüm yüklemesiyle otomatik gitmez.
 - **Veri Güvenliği formu:** toplama ve paylaşma amaçları **birebir aynı** olmalı; önizlemede biri fazladan madde gösteriyorsa tutarsızdır.
 - **Rıza yönetimi (UMP) yok.** Google'ın CMP şartı yalnızca AEA/BK için geçerli, hedef ülkelerin üçü de dışında. **Kalıcı kural: hedef listeye bir AEA/BK ülkesi eklenecekse önce UMP rıza akışı koda eklenmeli.**
 - Play'in "uçtan uca ekran" uyarısının **deprecated API kısmı** Flutter motorundan geliyor, uygulama kodu değil. **Ama yerleşim sorunu gerçekti:** önceki kontrol hareketli gezinmeyle yapılmıştı (ince tutamaç), 3 düğmeli gezinmede işlem sayfasının Kaydet düğmesi çubuğun altında kalıyordu. Ayrıntı ve kural aşağıda *Uygulama* bölümünde.
-- "Kod gösterme dosyası yok" uyarısı geçersiz: `build.gradle`'da `minifyEnabled false`, karartma yok.
+- "Kod gösterme dosyası yok" uyarısı geçersiz: `build.gradle`'da `minifyEnabled false`, karartma yok. `minifyEnabled true` yapılırsa her sürümde `build/app/outputs/mapping/release/mapping.txt` de yüklenmeli.
 
 **AdMob**
 - Reklam birimi oluştururken **"İş ortağı teklifli sistem"** kutusu işaretli bırakılırsa birim AdMob talebiyle dolmaz ve **sonradan değiştirilemez**.
